@@ -6,3 +6,34 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+model Event {
+  id Int @id @default(autoincrement())
+  status Boolean @default(false)
+  title String
+  description String
+  grouped Boolean @default(false)
+
+  eventGroup EventGroup[]
+  eventPeople EventPeople []
+}
+
+model EventGroup {
+  id Int @id @default(autoincrement())
+  id_event Int
+  name String
+  event Event? @relation(fields: [id_event], references: [id])
+
+  eventPeople EventPeople []
+}
+
+model EventPeople {
+  id Int @id @default(autoincrement())
+  id_event Int
+  id_group Int
+  name String
+  cpf String
+  matched String @default("")
+  event Event? @relation(fields: [id_event], references: [id])
+  group EventGroup? @relation(fields: [id_group], references: [id])
+}
