@@ -3,8 +3,10 @@ import express from 'express';
 import cors from 'cors';
 import https from 'https';
 import http from 'http';
-import siteRoutes from './routes/site.js'
+
 import { requestIntercepter } from './utils/requestIntercepter.js';
+import siteRoutes from './routes/site.js'
+import adminRoutes from './routes/admin.js'
 
 const app = express();
 
@@ -13,7 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 app.use(requestIntercepter);
-// app.use('/admin', adminRoutes);
+app.use('/admin', adminRoutes);
 app.use('/', siteRoutes);
 
 const runServer = (port: number, server: http.Server) => {
